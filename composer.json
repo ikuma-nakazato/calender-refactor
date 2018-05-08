@@ -1,0 +1,12 @@
+{
+    "name": "nakazato/gl-exercise-calender",
+    "authors": [
+        {
+            "name": "Ikuma Nakazato",
+            "email": "i.nakazato.goodlife@gmail.com"
+        }
+    ],
+    "require": {
+        "strictphp/date": "^1.0"
+    }
+}
