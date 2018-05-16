@@ -1,8 +1,15 @@
 version: '2'
 services:
+  db:
+    image: "mysql:5.7"
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: database
   web:
     build: .
     ports:
      - "1234:80"
     volumes:
      - .:/var/www
+    depends_on:
+     - db

@@ -1,0 +1,38 @@
+caption {
+    font-size: 40px;
+    font-weight: 600;
+}
+table {
+
+    width: 800px;
+    height: 600px;
+
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    margin: auto;
+}
+td {
+    font-size: 20px;
+    text-align: center;
+    vertical-align: top;
+}
+td:first-child {
+    background-color: #F6CECE;
+}
+td:last-child {
+    background-color: #CECEF6;
+}
+td div {
+    font-size: 18px;
+}
+.saturday {
+    color: #5858FA;
+    /*background-color: #A9A9F5;*/
+}
+.sunday {
+    color: #FA5858;
+    /*background-color: #F5A9A9;*/
+}
