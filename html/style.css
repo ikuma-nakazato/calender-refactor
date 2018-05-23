@@ -28,6 +28,20 @@ td:last-child {
 td div {
     font-size: 18px;
 }
+table {
+	width: 100%;
+}
+table tr {
+	display: block;
+}
+table tr td, table tr th {
+	width: 13%;
+	float: left;
+	display: block;
+}
+table tr td {
+	height: 100px;
+}
 .saturday {
     color: #5858FA;
     /*background-color: #A9A9F5;*/

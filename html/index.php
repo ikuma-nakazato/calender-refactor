@@ -1,16 +1,23 @@
 <?php
 
+use Strict\Date\Months\YMMonth;
+require("../vendor/autoload.php");
+
+//---------------------------------------------------
+//クエリのフェイルセーフ
+//---------------------------------------------------
+
 if(!isset($_GET['year']) || !isset($_GET['month'])){
 echo "値が取得できません。";
 exit;
 }
 
 //---------------------------------------------------
-//カレンダー表示
+//カレンダー表示関連
 //---------------------------------------------------
 
 
-//連想配列用の関数//
+//連想配列用の関数
 //---------------------------------------------------
 //第一引数・・・最初のキーを取得したい配列
 //返り値・・・最初のキー
@@ -35,11 +42,8 @@ function get_last_value($array){
     return end($array);
 }
 
-//日と週を連想配列で取得//
+//日と週を連想配列で取得
 //---------------------------------------------------
-use Strict\Date\Months\YMMonth;
-require("../vendor/autoload.php");
-
 $day_data = [];
 $inst = new YMMonth($_GET['year'], $_GET['month']);
 
@@ -48,6 +52,7 @@ foreach ($inst as $value) {
 	$week = $value->format('w');
 	$day_data[$day] = $week;
 }
+//確認用出力//
 echo "<pre>";
 print_r($day_data);
 echo "</pre>";
@@ -68,117 +73,82 @@ const OPTION = [
 try {
 	$db_handle = new PDO(DB_DSN, DB_USER, DB_PASSWORD, OPTION);
 	echo "Connection has been activated.<br>";
-	//planテーブル
 	//---------------------------------------------------
+	//予定表
+	//---------------------------------------------------
+
 	$db_handle->query('CREATE TABLE IF NOT EXISTS plan
 		(
 			id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-			day DATE ,
+			day DATETIME,
 			title VARCHAR(255),
 			place VARCHAR(255),
 			detail VARCHAR(255)
 		)'
 	);
 
-	//planテーブルに入れるデータ群とそれの挿入
+	//動作検証のためのデータ群
 	//---------------------------------------------------
 	$day_list = array(
-		'2018-02-06',
-		'2018-02-06',
-		'2018-02-01'
+		'2017-02-01 09:00:00',
+		'2018-01-03 12:00:00',
+		'2018-02-06 12:00:00',
+		'2018-02-06 23:00:00'
 	);
 	$title_list = array(
 		'lunch',
 		'theater',
-		'deadline'
+		'deadline',
+		'golf'
 	);
 	$place_list = array(
 		'yurakutyo',
 		'shinjuku',
-		'goodlife'
+		'goodlife',
+		'gotanda'
 	);
 	$detail_list = array(
 		'taco bell',
 		'ironman',
-		'application refactoring for clint and add new feature'
+		'application refactoring for clint and add new feature',
+		'reception'
 	);
-	/*
-	$all_list = [
-		'days' => $day_list,
-		'titles' => $title_list,
-		'places' => $place_list,
-		'details' => $detail_list
-	];
 
-	foreach ($all_list as $key => $value) {
-		for ($i = 0; $i < 3 ; $i++){
-			echo $value[$i],"<br>";
-		}
-	}*/
-
-	/*
+	//検証データの挿入
 	//立ち上げ時には必ず一回実行する
 	//あとでデータが入ってたら二回目は実行しない処理を書いとけ
+	//---------------------------------------------------
+
 	$pre = $db_handle->prepare('INSERT INTO plan (day, title, place, detail) VALUES (:day, :title, :place, :detail)');
-	for ($i = 0; $i < 3; $i++){
+	for ($i = 0; $i < 4; $i++){
 		$pre->bindValue(':day', $day_list[$i], PDO::PARAM_STR);
 		$pre->bindValue(':title', $title_list[$i], PDO::PARAM_STR);
 		$pre->bindValue(':place', $place_list[$i], PDO::PARAM_STR);
 		$pre->bindValue(':detail', $detail_list[$i], PDO::PARAM_STR);
 		$pre->execute();
 	}
-	*/
 
-	for($i = 0;$i < 3; $i++){
+	//検証データ抽出し、その連想配列のキーをplan_dataとして別の連想配列へ格納
+	//---------------------------------------------------
+	$plan_data;
+	for($i = 0;$i < 4; $i++){
 		$pre = $db_handle->prepare('SELECT title FROM plan WHERE day = ?');
 		$pre->bindValue(1, $day_list[$i], PDO::PARAM_STR);
 		$pre->execute();
 
-		print_r($pre->fetch());
+		$result = $pre->fetch();
+		$plan_data[$day_list[$i]] = $result['title'];
+	}
+	//確認用出力//
+	echo "<pre>";
+	print_r($plan_data);
+	echo "</pre>";
+
+	foreach ($plan_data as $key => $value) {
+		echo $key;
 		echo "<br>";
+	}
 
-
-}
-	//$result = array('' => , );
-
-/*
-//NULLを許可しなければなんか使えそうな感じのやつ
-	foreach($all_list as $key => $value) {
-			switch ($key) {
-				case 'days':
-				$pre = $db_handle->prepare('INSERT INTO plan (day) VALUES (:day)');
-					for ($i = 0; $i < 3; $i++) {
-						$pre->bindValue(':day', $value[$i], PDO::PARAM_STR);
-						//$pre->execute();
-					}
-					break;
-				case 'titles':
-					$pre = $db_handle->prepare('INSERT INTO plan (title) VALUES (:title)');
-					for ($i = 0; $i < 3; $i++) {
-						$pre->bindValue(':title', $value[$i], PDO::PARAM_STR);
-						//$pre->execute();
-					}
-					break;
-				case 'places':
-					$pre = $db_handle->prepare('INSERT INTO plan (place) VALUES (:place)');
-					for ($i = 0; $i < 3; $i++) {
-						$pre->bindValue(':place', $value[$i], PDO::PARAM_STR);
-						//$pre->execute();
-					}
-					break;
-				case 'details':
-					$pre = $db_handle->prepare('INSERT INTO plan (detail) VALUES (:detail)');
-					for ($i = 0; $i < 3; $i++) {
-						$pre->bindValue(':detail', $value[$i], PDO::PARAM_STR);
-						//$pre->execute();
-					}
-					break;
-				default:
-					break;
-			}
-			$pre->execute();
-		}
-*/
 	//tagテーブル
 	//---------------------------------------------------
 	$db_handle->query('CREATE TABLE IF NOT EXISTS tag
@@ -204,14 +174,17 @@ try {
 }
 
 
-?>
-
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="utf-8">
     <title>calender</title>
     <link rel="stylesheet" href="style.css">
+	<script type="text/javascript">
+		function formA(){
+			alert('test');
+		}
+	</script>
 </head>
 <body>
 <div>
@@ -239,6 +212,8 @@ try {
         <tbody>
             <tr>
             <?php
+
+			$display_plan = array();
 			//カレンダーのデータ生成
 			foreach ($day_data as $key => $value) {
 				//最初のキーを参照している場合に空データ挿入
@@ -249,17 +224,29 @@ try {
 				}
 
 				echo "<td>";
-
+				echo "<div onclick = \"formA();\">";
 				echo "{$key}<br>({$value})";
+				echo "</div>";
 				echo "<div>";
 
-				echo "plan";
+				foreach ($plan_data as $key_date => $value_title) {
+					$ymd_data = new DateTime($key_date);
+					$y_data = $ymd_data->format('Y');
+					$m_data = $ymd_data->format('m');
+					$d_data = $ymd_data->format('d');
+
+					if($y_data == $_GET['year'] && $m_data == $_GET['month']){
+						if($d_data == $key){
+							echo "{$value_title}<br>";
+						}
+					}
+				}
 
 				echo "</div>";
 				echo "</td>";
 				//土曜で改行
 				if($value == 6){
-					echo "</tr>";
+					echo "</tr><tr>";
 				}
 				//最後のキーを参照している場合に空データ挿入
 				if($key === get_last_key($day_data)){
@@ -270,6 +257,7 @@ try {
 			}
 
             ?>
+		</tr>
         </tbody>
     </table>
 </div>
