@@ -13,7 +13,7 @@ class TaskRepository {
 	public function __construct(PDO $pdo, $sql_query)
 	{
 		$this->pdo = $pdo;
-		//以下2行はテーブルつくるために追加、是非を問う
+		//以下2行はテーブルつくるために追加、是非を問う、実験用
 		$db_handle = $this->pdo;
 		$db_handle->query($sql_query);
 	}
@@ -25,35 +25,37 @@ class TaskRepository {
 		$sql_query = 'SELECT id, task FROM plan WHERE day = :day';
 
 		$pre = $db_handle->prepare($sql_query);
-		$pre->bindValue(':day', $day, PDO::PARAM_STR);
+		$pre->bindValue(':day', $day->format('Y-m-d'), PDO::PARAM_STR);
 		$pre->execute();
 
 		foreach($pre as $value){
-			$taskmodel_array[] = new TaskModel($value['id'], $value['text'], $day);
+			$taskmodel_array[] = new TaskModel($value['id'], $value['task'], $day);
 		}
 
 		return $taskmodel_array;
 	}
 
-	public function update(TaskModel $model): bool
+	public function update(TaskModel $model, string $task): bool
 	{
 		$db_handle = $this->pdo;
+		$model->setTask($task);
 
 		try {
 			$db_handle->beginTransaction();
 			//データロック
-			$x_lock = 'SELECT * FROM plan WHERE day = :day FOR UPDATE';
+			$x_lock = 'SELECT * FROM plan WHERE id = :id FOR UPDATE';
 
 			$data_lock = $db_handle->prepare($x_lock);
-			$data_lock->bindValue(':day', $model->getDay(), PDO::PARAM_STR);
+			$data_lock->bindValue(':id', $model->getId(), PDO::PARAM_STR);
 
 			$data_lock->execute();
+
 			//更新処理
-			$sql_query = 'UPDATE plan SET task WHERE day = :day';
+			$sql_query = 'UPDATE plan SET task = :task WHERE id = :id';
 
 			$pre = $db_handle->prepare($sql_query);
-			$pre->bindValue(':task', $model->getTask(),POD::PARAM_STR);
-			$pre->bindValue(':day', $model->getDay(), PDO::PARAM_STR);
+			$pre->bindValue(':task', $model->getTask(), PDO::PARAM_STR);
+			$pre->bindValue(':id', $model->getId(), PDO::PARAM_STR);
 			$pre->execute();
 
 			$db_handle->commit();
@@ -66,17 +68,19 @@ class TaskRepository {
 		}
 	}
 
-	public function create(DayInterface $day, string $task): TaskModel
+	//リファクタ未完
+	public function create(string $task, DayInterface $day): TaskModel
 	{
 		$db_handle = $this->pdo;
 		$sql_query = 'INSERT INTO plan (task, day) VALUES (:task, :day)';
 
 		$pre = $db_handle->prepare($sql_query);
-		$pre->bindValue(':task', $task, POD::PARAM_STR);
-		$pre->bindValue(':day', $day, PDO::PARAM_STR);
+		$pre->bindValue(':task', $task, PDO::PARAM_STR);
+		$pre->bindValue(':day', $day->format('Y-m-d'), PDO::PARAM_STR);
 		$pre->execute();
 
-		return new TaskModel($pre['id'], $task['text'], $day);
+
+		return new TaskModel($pre, $task, $day);
 	}
 
 	public function delete(TaskModel $model): bool
@@ -86,17 +90,17 @@ class TaskRepository {
 		try {
 			$db_handle->beginTransaction();
 			//データロック
-			$x_lock = 'SELECT * FROM plan WHERE day = :day FOR UPDATE';
+			$x_lock = 'SELECT * FROM plan WHERE id = :id FOR UPDATE';
 
 			$data_lock = $db_handle->prepare($x_lock);
-			$data_lock->bindValue(':day', $model->getDay(), PDO::PARAM_STR);
+			$data_lock->bindValue(':id', $model->getId(), PDO::PARAM_STR);
 
 			$data_lock->execute();
 			//削除処理
-			$sql_query = 'DELETE FROM plan WHERE day = :day';
+			$sql_query = 'DELETE FROM plan WHERE id = :id';
 
 			$pre = $db_handle->prepare($sql_query);
-			$pre->bindValue(':day', $model->getDay(), POD::PARAM_STR);
+			$pre->bindValue(':id', $model->getId(), PDO::PARAM_STR);
 			$pre->execute();
 
 			$db_handle->commit();

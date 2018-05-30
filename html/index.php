@@ -2,6 +2,7 @@
 
 require("../vendor/autoload.php");
 
+use Strict\Date\Days\YMDDay;
 use Strict\Date\Months\YMMonth;
 use Strict\Date\DayInterface;
 
@@ -18,7 +19,7 @@ const SQL_TB = 'CREATE TABLE IF NOT EXISTS plan
 	(
 		id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 		task VARCHAR(255),
-		day DATETIME
+		day DATE
 	)';
 
 //---------------------------------------------------
@@ -40,6 +41,25 @@ echo "</pre>";
 try {
 	$inst_pdo = new Goodlife\Calender\TaskRepository(new PDO(DB_DSN, DB_USER, DB_PASSWORD, OPTION), SQL_TB);
 	echo "Connection has been activated";
+
+	//$inst_taskmodel = $inst_pdo->create('lunch at roppongi', new YMDDay(2018, 03, 11));
+
+	/*
+	//具体的な取得処理
+	$task_array = $inst_pdo->get(new YMDDay(2018, 03, 10));
+
+	foreach ($task_array as $value) {
+		echo "<pre>";
+		print_r($value);
+		echo "</pre>";
+	}
+	*/
+	
+	//具体的な更新処理
+	//$update_judge = $inst_pdo->update($task_array[5], 'dinner at akasaka');
+
+	//具体的な削除処理
+	//$delete_judge = $inst_pdo->delete($task_array[19]);
 
 } catch (\PDOException $e) {
 	echo "ErrorMessage : " . $e->getMessage() . "<br>";

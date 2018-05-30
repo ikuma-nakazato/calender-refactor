@@ -28,17 +28,17 @@ class TaskModel
 
 	public function getId(): int
 	{
-		return $id;
+		return $this->id;
 	}
 
-	public function getTask(): stirng
+	public function getTask(): string
 	{
-		return $task;
+		return $this->task;
 	}
 
 	public function getDay(): DayInterface
 	{
-		return $day;
+		return $this->day;
 	}
 
 	public function setTask(string $task): void

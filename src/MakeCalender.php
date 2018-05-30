@@ -16,6 +16,7 @@ class MakeCalender {
 	public function getDate(): array
 	{
 		$day_data = [];
+		$day_data_detail = [];
 
 		foreach ($this->inst as $value) {
 			$day = $value->format('j');
@@ -23,16 +24,29 @@ class MakeCalender {
 
 			if($day == 1){
 				for ($i = 0; $i < $week; $i++){
-					$day_data["NULL{$i}"] = $i;
+					$day_data_detail = [
+						'day' => NULL,
+						'week' => $i
+					];
+
+					$day_data[] = $day_data_detail;
 				}
 			}
 
-			$day_data[$day] = $week;
+			$day_data_detail = [
+				'day' => $day,
+				'week' =>$week
+			];
+			$day_data[] = $day_data_detail;
 		}
 
-		if(end($day_data) != 6){
+		if(end($day_data)['week'] != 6) {
 			for ($i = $week + 1 ; $i < 7; $i++) {
-				$day_data += ["NULL{$i}" => $i];
+				$day_data_detail = [
+					'day' => NULL,
+					'week' => $i
+				];
+				$day_data[] = $day_data_detail;
 			}
 		}
 
