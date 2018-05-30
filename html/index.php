@@ -1,65 +1,10 @@
 <?php
 
-use Strict\Date\Months\YMMonth;
 require("../vendor/autoload.php");
 
-//---------------------------------------------------
-//クエリのフェイルセーフ
-//---------------------------------------------------
-
-if(!isset($_GET['year']) || !isset($_GET['month'])){
-echo "値が取得できません。";
-exit;
-}
-
-//---------------------------------------------------
-//カレンダー表示関連
-//---------------------------------------------------
-
-
-//連想配列用の関数
-//---------------------------------------------------
-//第一引数・・・最初のキーを取得したい配列
-//返り値・・・最初のキー
-function get_first_key($array){
-    reset($array);
-    return key($array);
-}
-//第一引数・・・最初の値を取得したい配列
-//返り値・・・最初の値
-function get_first_value($array){
-    return reset($array);
-}
-//第一引数・・・最後のキーを取得したい配列
-//返り値・・・最後のキー
-function get_last_key($array){
-    end($array);
-    return key($array);
-}
-//第一引数・・・最後の値を取得したい配列
-//返り値・・・最後の値
-function get_last_value($array){
-    return end($array);
-}
-
-//日と週を連想配列で取得
-//---------------------------------------------------
-$day_data = [];
-$inst = new YMMonth($_GET['year'], $_GET['month']);
-
-foreach ($inst as $value) {
-	$day = $value->format('j');
-	$week = $value->format('w');
-	$day_data[$day] = $week;
-}
-//確認用出力//
-echo "<pre>";
-print_r($day_data);
-echo "</pre>";
-
-//---------------------------------------------------
-//データーベースdatabaseにplan,tag,mapテーブルを作成し色々やる
-//---------------------------------------------------
+use Strict\Date\Days\YMDDay;
+use Strict\Date\Months\YMMonth;
+use Strict\Date\DayInterface;
 
 const DB_DSN = 'mysql:host=gl-exercise-calender_db_1;dbname=database;charset=utf8mb4';
 const DB_USER = 'root';
@@ -70,111 +15,61 @@ const OPTION = [
 	PDO::ATTR_EMULATE_PREPARES => false
 ];
 
+const SQL_TB = 'CREATE TABLE IF NOT EXISTS plan
+	(
+		id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+		task VARCHAR(255),
+		day DATE
+	)';
+
+//---------------------------------------------------
+//クエリのフェイルセーフと日付の取得
+//---------------------------------------------------
+if(!isset($_GET['year']) || !isset($_GET['month'])){
+	die('値が取得できません');
+}
+
+$inst_ymmonth = new Goodlife\Calender\MakeCalender(new YMMonth($_GET['year'], $_GET['month']));
+//確認用出力
+echo "<pre>";
+print_r ($inst_ymmonth->getDate());
+echo "</pre>";
+
+//---------------------------------------------------
+//データーベース関連
+//---------------------------------------------------
 try {
-	$db_handle = new PDO(DB_DSN, DB_USER, DB_PASSWORD, OPTION);
-	echo "Connection has been activated.<br>";
-	//---------------------------------------------------
-	//予定表
-	//---------------------------------------------------
+	$inst_pdo = new Goodlife\Calender\TaskRepository(new PDO(DB_DSN, DB_USER, DB_PASSWORD, OPTION), SQL_TB);
+	echo "Connection has been activated";
 
-	$db_handle->query('CREATE TABLE IF NOT EXISTS plan
-		(
-			id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-			day DATETIME,
-			title VARCHAR(255),
-			place VARCHAR(255),
-			detail VARCHAR(255)
-		)'
-	);
+	//$inst_taskmodel = $inst_pdo->create('lunch at roppongi', new YMDDay(2018, 03, 11));
 
-	//動作検証のためのデータ群
-	//---------------------------------------------------
-	$day_list = array(
-		'2017-02-01 09:00:00',
-		'2018-01-03 12:00:00',
-		'2018-02-06 12:00:00',
-		'2018-02-06 23:00:00'
-	);
-	$title_list = array(
-		'lunch',
-		'theater',
-		'deadline',
-		'golf'
-	);
-	$place_list = array(
-		'yurakutyo',
-		'shinjuku',
-		'goodlife',
-		'gotanda'
-	);
-	$detail_list = array(
-		'taco bell',
-		'ironman',
-		'application refactoring for clint and add new feature',
-		'reception'
-	);
+	/*
+	//具体的な取得処理
+	$task_array = $inst_pdo->get(new YMDDay(2018, 03, 10));
 
-	//検証データの挿入
-	//立ち上げ時には必ず一回実行する
-	//あとでデータが入ってたら二回目は実行しない処理を書いとけ
-	//---------------------------------------------------
-
-	$pre = $db_handle->prepare('INSERT INTO plan (day, title, place, detail) VALUES (:day, :title, :place, :detail)');
-	for ($i = 0; $i < 4; $i++){
-		$pre->bindValue(':day', $day_list[$i], PDO::PARAM_STR);
-		$pre->bindValue(':title', $title_list[$i], PDO::PARAM_STR);
-		$pre->bindValue(':place', $place_list[$i], PDO::PARAM_STR);
-		$pre->bindValue(':detail', $detail_list[$i], PDO::PARAM_STR);
-		$pre->execute();
+	foreach ($task_array as $value) {
+		echo "<pre>";
+		print_r($value);
+		echo "</pre>";
 	}
+	*/
+	
+	//具体的な更新処理
+	//$update_judge = $inst_pdo->update($task_array[5], 'dinner at akasaka');
 
-	//検証データ抽出し、その連想配列のキーをplan_dataとして別の連想配列へ格納
-	//---------------------------------------------------
-	$plan_data;
-	for($i = 0;$i < 4; $i++){
-		$pre = $db_handle->prepare('SELECT title FROM plan WHERE day = ?');
-		$pre->bindValue(1, $day_list[$i], PDO::PARAM_STR);
-		$pre->execute();
+	//具体的な削除処理
+	//$delete_judge = $inst_pdo->delete($task_array[19]);
 
-		$result = $pre->fetch();
-		$plan_data[$day_list[$i]] = $result['title'];
-	}
-	//確認用出力//
-	echo "<pre>";
-	print_r($plan_data);
-	echo "</pre>";
-
-	foreach ($plan_data as $key => $value) {
-		echo $key;
-		echo "<br>";
-	}
-
-	//tagテーブル
-	//---------------------------------------------------
-	$db_handle->query('CREATE TABLE IF NOT EXISTS tag
-		(
-			id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-			tagname VARCHAR(255)
-		)'
-	);
-	//mappingテーブル
-	$db_handle->query('CREATE TABLE IF NOT EXISTS mapper
-		(
-			id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-			plan_id BIGINT UNSIGNED,
-			tag_id BIGINT UNSIGNED
-		)'
-	);
-
-} catch (PDOException $e) {
+} catch (\PDOException $e) {
 	echo "ErrorMessage : " . $e->getMessage() . "<br>";
 	echo "ErrorCode : " . $e->getCode() . "<br>";
 	echo "ErrorFile : " . $e->getFile() . "<br>";
 	echo "ErrorLine : " . $e->getLine() . "<br>";
 }
 
-
-?><!DOCTYPE html>
+/*
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="utf-8">
@@ -265,3 +160,4 @@ try {
 </div>
 </body>
 </html>
+*/
