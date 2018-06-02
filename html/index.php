@@ -6,7 +6,7 @@ use Strict\Date\Days\YMDDay;
 use Strict\Date\Months\YMMonth;
 use Strict\Date\DayInterface;
 
-const DB_DSN = 'mysql:host=gl-exercise-calender_db_1;dbname=database;charset=utf8mb4';
+const DB_DSN = 'mysql:host=exerxise-spare_db_1;dbname=database;charset=utf8mb4';
 const DB_USER = 'root';
 const DB_PASSWORD = 'pass';
 const OPTION = [
@@ -30,31 +30,16 @@ if(!isset($_GET['year']) || !isset($_GET['month'])){
 }
 
 $inst_ymmonth = new Goodlife\Calender\MakeCalender(new YMMonth($_GET['year'], $_GET['month']));
-//確認用出力
-echo "<pre>";
-print_r ($inst_ymmonth->getDate());
-echo "</pre>";
 
 //---------------------------------------------------
 //データーベース関連
 //---------------------------------------------------
 try {
-	$inst_pdo = new Goodlife\Calender\TaskRepository(new PDO(DB_DSN, DB_USER, DB_PASSWORD, OPTION), SQL_TB);
-	echo "Connection has been activated";
+	$inst_taskrepository = new Goodlife\Calender\TaskRepository(new PDO(DB_DSN, DB_USER, DB_PASSWORD, OPTION), SQL_TB);
+	//echo "Connection has been activated & Created Plan Table";
 
-	//$inst_taskmodel = $inst_pdo->create('lunch at roppongi', new YMDDay(2018, 03, 11));
+	//$inst_taskmodel = $inst_taskrepository->create('deadline', new YMDDay(2018, 03, 16));
 
-	/*
-	//具体的な取得処理
-	$task_array = $inst_pdo->get(new YMDDay(2018, 03, 10));
-
-	foreach ($task_array as $value) {
-		echo "<pre>";
-		print_r($value);
-		echo "</pre>";
-	}
-	*/
-	
 	//具体的な更新処理
 	//$update_judge = $inst_pdo->update($task_array[5], 'dinner at akasaka');
 
@@ -68,28 +53,38 @@ try {
 	echo "ErrorLine : " . $e->getLine() . "<br>";
 }
 
-/*
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="utf-8">
     <title>calender</title>
     <link rel="stylesheet" href="style.css">
-	<script type="text/javascript">
-		function formA(){
-			alert('test');
-		}
-	</script>
 </head>
 <body>
+
+<!--テスト-->
+<input type="button" id="show" value="show pop">
+
+
+<div id="layer"></div>
+
+<div id="form">
+    <div>Y年M月J日</div>
+    <form action="index.php" method="post">
+        予定を入力してください<br>
+        <textarea name="mytask" cols="30" rows="10"></textarea><br>
+    </form>
+    <div id="change">
+        <input type="submit" id="close" value="登録" />
+    </div>
+</div>
+
 <div>
     <table border="1" >
         <caption>
         <?php
 
-        $DisplayCapYear = $_GET['year'];
-        $DisplayCapMonth = $_GET['month'];
-        echo $DisplayCapYear,"年",$DisplayCapMonth,"月";
+        echo $_GET['year'],"年",$_GET['month'],"月";
 
         ?>
         </caption>
@@ -105,59 +100,47 @@ try {
             </tr>
         </thead>
         <tbody>
-            <tr>
             <?php
 
-			$display_plan = array();
-			//カレンダーのデータ生成
-			foreach ($day_data as $key => $value) {
-				//最初のキーを参照している場合に空データ挿入
-				if($key === get_first_key($day_data)){
-					for($i = 0; $i < $value; $i++){
-						echo "<td></td>";
-					}
-				}
+            foreach($inst_ymmonth->getDate() as $value){
+                if($value['day'] != NULL) {
+                    $task_array = $inst_taskrepository->get(new YMDDay($_GET['year'], $_GET['month'], $value['day']));
+                }
 
-				echo "<td>";
-				echo "<div onclick = \"formA();\">";
-				echo "{$key}<br>({$value})";
-				echo "</div>";
-				echo "<div>";
+                if($value['week'] == 0){
+                    echo "<tr>";
+                }
 
-				foreach ($plan_data as $key_date => $value_title) {
-					$ymd_data = new DateTime($key_date);
-					$y_data = $ymd_data->format('Y');
-					$m_data = $ymd_data->format('m');
-					$d_data = $ymd_data->format('d');
 
-					if($y_data == $_GET['year'] && $m_data == $_GET['month']){
-						if($d_data == $key){
-							echo "{$value_title}<br>";
-						}
-					}
-				}
+                echo "<td>";
 
-				echo "</div>";
-				echo "</td>";
-				//土曜で改行
-				if($value == 6){
-					echo "</tr><tr>";
-				}
-				//最後のキーを参照している場合に空データ挿入
-				if($key === get_last_key($day_data)){
-					for($i = $value; $i < 6; $i++){
-						echo "<td></td>";
-					}
-				}
-			}
+
+                echo "<div>";
+                echo "{$value['day']}";
+                echo "</div>";
+
+
+                if(isset($task_array) == true) {
+                    foreach ($task_array as $task_array_value) {
+                        echo "<div>";
+                        echo "{$task_array_value->getTask()}";
+                        echo "</div>";
+                    }
+                }
+
+
+                echo "</td>";
+
+                if($value['week'] == 6){
+                    echo "</tr>";
+                }
+
+            }
 
             ?>
-		</tr>
         </tbody>
     </table>
 </div>
-<div>
-</div>
+<script type="text/javascript" src="event.js"></script>
 </body>
 </html>
-*/

@@ -13,7 +13,6 @@ class TaskRepository {
 	public function __construct(PDO $pdo, $sql_query)
 	{
 		$this->pdo = $pdo;
-		//以下2行はテーブルつくるために追加、是非を問う、実験用
 		$db_handle = $this->pdo;
 		$db_handle->query($sql_query);
 	}
@@ -79,8 +78,7 @@ class TaskRepository {
 		$pre->bindValue(':day', $day->format('Y-m-d'), PDO::PARAM_STR);
 		$pre->execute();
 
-
-		return new TaskModel($pre, $task, $day);
+		return new TaskModel($db_handle->lastInsertId(), $task, $day);
 	}
 
 	public function delete(TaskModel $model): bool
