@@ -1,4 +1,58 @@
-#layer {
+/**********/
+/*tableタグ*/
+/**********/
+table {
+    width: 50%;
+    height: 75%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    margin: auto;
+}
+caption {
+    font-size: 40px;
+    font-weight: 600;
+}
+table tr th {
+    width: 13%;
+    float: left;
+    display: block;
+}
+.saturday {
+    color: #5858FA;
+    background-color: #A9A9F5;
+}
+.sunday {
+    color: #FA5858;
+    background-color: #F5A9A9;
+}
+table tr {
+    display: block;
+}
+table tr td {
+    width: 13%;
+    height: 100px;
+    float: left;
+    display: block;
+}
+td {
+    font-size: 13px;
+    text-align: center;
+    vertical-align: top;
+}
+td:first-child {
+    background-color: #F6CECE;
+}
+td:last-child {
+    background-color: #CECEF6;
+}
+
+/******/
+/*form*/
+/******/
+.popup_layer {
     display: none;
     position: absolute;
     left: 0px;
@@ -8,7 +62,7 @@
     background-color: black;
     opacity: 0.20;
 }
-#form {
+.popup_form {
     display: none;
     position: absolute;
     left: 50%;
@@ -23,57 +77,7 @@
     z-index: 1;
 }
 
-caption {
-    font-size: 40px;
-    font-weight: 600;
-}
-table {
+/**********/
+/*sidemenu*/
+/**********/
 
-    width: 400px;
-    height: 300px;
-
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    position: absolute;
-    margin: auto;
-}
-td {
-    font-size: 20px;
-    text-align: center;
-    vertical-align: top;
-}
-
-td:first-child {
-    background-color: #F6CECE;
-}
-td:last-child {
-    background-color: #CECEF6;
-}
-
-td div {
-    font-size: 18px;
-}
-table {
-	width: 100%;
-}
-table tr {
-	display: block;
-}
-table tr td, table tr th {
-	width: 13%;
-	float: left;
-	display: block;
-}
-table tr td {
-	height: 100px;
-}
-.saturday {
-    color: #5858FA;
-    background-color: #A9A9F5;
-}
-.sunday {
-    color: #FA5858;
-    background-color: #F5A9A9;
-}

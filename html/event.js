@@ -1,15 +1,19 @@
-var layer = document.getElementById("layer");
-var form = document.getElementById("form");
+var popup_layer = document.getElementsByClassName("popup_layer");
+var popup_form = document.getElementsByClassName("popup_form");
 
-function show(){
-    layer.style.display = "block";
-    form.style.display = "block";
+function popup_show(){
+    popup_layer[0].style.display = "block";
+    popup_form[0].style.display = "block";
 }
 
-function close(){
-    layer.style.display = "none";
-    form.style.display = "none";
+function popup_close(){
+    popup_layer[0].style.display = "none";
+    popup_form[0].style.display = "none";
 }
 
-document.getElementById("show").addEventListener('click', show);
-document.getElementById("close").addEventListener('click',close);
+var popup_formShow = document.getElementsByClassName("popup_form-show");
+for(var i = 0; i < popup_formShow.length; i++){
+    popup_formShow[i].addEventListener('click', popup_show);
+}
+
+document.getElementsByClassName("popup_form-close")[0].addEventListener('click', popup_close);

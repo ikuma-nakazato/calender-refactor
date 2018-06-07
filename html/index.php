@@ -38,7 +38,7 @@ try {
 	$inst_taskrepository = new Goodlife\Calender\TaskRepository(new PDO(DB_DSN, DB_USER, DB_PASSWORD, OPTION), SQL_TB);
 	//echo "Connection has been activated & Created Plan Table";
 
-	//$inst_taskmodel = $inst_taskrepository->create('deadline', new YMDDay(2018, 03, 16));
+	//$inst_taskmodel = $inst_taskrepository->create('lunch at roppongi with leader', new YMDDay(2018, 05, 29));
 
 	//具体的な更新処理
 	//$update_judge = $inst_pdo->update($task_array[5], 'dinner at akasaka');
@@ -57,90 +57,87 @@ try {
 <html lang="ja">
 <head>
     <meta charset="utf-8">
-    <title>calender</title>
+    <title>Scheduler</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!--テスト-->
-<input type="button" id="show" value="show pop">
-
-
-<div id="layer"></div>
-
-<div id="form">
-    <div>Y年M月J日</div>
-    <form action="index.php" method="post">
-        予定を入力してください<br>
-        <textarea name="mytask" cols="30" rows="10"></textarea><br>
-    </form>
-    <div id="change">
-        <input type="submit" id="close" value="登録" />
-    </div>
-</div>
-
-<div>
-    <table border="1" >
-        <caption>
+<table border="1">
+    <caption>
         <?php
 
         echo $_GET['year'],"年",$_GET['month'],"月";
 
         ?>
-        </caption>
-        <thead>
-            <tr>
-                <th class="sunday">日</th>
-                <th>月</th>
-                <th>火</th>
-                <th>水</th>
-                <th>木</th>
-                <th>金</th>
-                <th class="saturday">土</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
+    </caption>
+    <thead>
+    <tr>
+        <th class="sunday">日</th>
+        <th>月</th>
+        <th>火</th>
+        <th>水</th>
+        <th>木</th>
+        <th>金</th>
+        <th class="saturday">土</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
 
-            foreach($inst_ymmonth->getDate() as $value){
-                if($value['day'] != NULL) {
-                    $task_array = $inst_taskrepository->get(new YMDDay($_GET['year'], $_GET['month'], $value['day']));
-                }
+    foreach($inst_ymmonth->getDate() as $value){
+        if($value['day'] != NULL) {
+            $task_array = $inst_taskrepository->get(new YMDDay($_GET['year'], $_GET['month'], $value['day']));
+            }
 
-                if($value['week'] == 0){
-                    echo "<tr>";
-                }
+        if($value['week'] == 0){
+            echo "<tr>";
+            }
+
+            echo "<td>";
 
 
-                echo "<td>";
-
-
-                echo "<div>";
+                echo "<div class='popup_form-show' data-scheduleDate=\"{$value['day']}\">";
                 echo "{$value['day']}";
                 echo "</div>";
 
 
                 if(isset($task_array) == true) {
                     foreach ($task_array as $task_array_value) {
-                        echo "<div>";
+                        echo "<div data-scheduleTask=\"{$task_array_value->getTask()}\">";
                         echo "{$task_array_value->getTask()}";
                         echo "</div>";
                     }
                 }
-
 
                 echo "</td>";
 
                 if($value['week'] == 6){
                     echo "</tr>";
                 }
-
             }
 
             ?>
-        </tbody>
-    </table>
+    </tbody>
+</table>
+
+<div class="popup_layer"></div>
+    <div class="popup_form">
+        <p>Y年M月J日</p>
+        <form action="index.php" method="post">
+            予定を入力してください<br>
+            <textarea name="mytask" cols="30" rows="10"></textarea><br>
+        </form>
+        <input class="popup_form-close" type="submit" value="登録" />
+    </div>
+
+
+<div class="sidemenu">
+    <?php
+
+    ?>
 </div>
+
+
 <script type="text/javascript" src="event.js"></script>
 </body>
 </html>
