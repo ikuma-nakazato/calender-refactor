@@ -4,16 +4,6 @@ require("../vendor/autoload.php");
 
 use Strict\Date\Days\YMDDay;
 use Strict\Date\Months\YMMonth;
-use Strict\Date\DayInterface;
-
-const DB_DSN = 'mysql:host=exerxise-spare_db_1;dbname=database;charset=utf8mb4';
-const DB_USER = 'root';
-const DB_PASSWORD = 'pass';
-const OPTION = [
-	PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-	PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-	PDO::ATTR_EMULATE_PREPARES => false
-];
 
 const SQL_TB = 'CREATE TABLE IF NOT EXISTS plan
 	(
@@ -29,16 +19,23 @@ if(!isset($_GET['year']) || !isset($_GET['month'])){
 	die('値が取得できません');
 }
 
-$inst_ymmonth = new Goodlife\Calender\MakeCalender(new YMMonth($_GET['year'], $_GET['month']));
+$year = $_GET['year'];
+$month = $_GET['month'];
+
+
+$inst_ymmonth = new Goodlife\Calender\MakeCalender(new YMMonth($year, $month));
 
 //---------------------------------------------------
 //データーベース関連
 //---------------------------------------------------
 try {
-	$inst_taskrepository = new Goodlife\Calender\TaskRepository(new PDO(DB_DSN, DB_USER, DB_PASSWORD, OPTION), SQL_TB);
+	$inst_taskrepository = new Goodlife\Calender\TaskRepository(Goodlife\Calender\PDOMaker::getPDO(), SQL_TB);
 	//echo "Connection has been activated & Created Plan Table";
-
-	//$inst_taskmodel = $inst_taskrepository->create('lunch at roppongi with leader', new YMDDay(2018, 05, 29));
+    /*
+    if(isset($_POST['new_task'])){
+        $inst_taskmodel = $inst_taskrepository->create($_POST['new_task'], new YMDDay($_GET['year'], $_GET['month'], $_GET['day']));
+    }
+    */
 
 	//具体的な更新処理
 	//$update_judge = $inst_pdo->update($task_array[5], 'dinner at akasaka');
@@ -60,15 +57,13 @@ try {
     <title>Scheduler</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="data_YM" data-scheduleYear="<?php echo $year; ?>" data-scheduleMonth="<?php echo $month; ?>">
 
 <table border="1">
-    <caption>
-        <?php
-
-        echo $_GET['year'],"年",$_GET['month'],"月";
-
-        ?>
+    <caption class="table_caption">
+        <a></a>
+        Y年M月
+        <a></a>
     </caption>
     <thead>
     <tr>
@@ -86,7 +81,7 @@ try {
 
     foreach($inst_ymmonth->getDate() as $value){
         if($value['day'] != NULL) {
-            $task_array = $inst_taskrepository->get(new YMDDay($_GET['year'], $_GET['month'], $value['day']));
+            $task_array = $inst_taskrepository->get(new YMDDay($year, $month, $value['day']));
             }
 
         if($value['week'] == 0){
@@ -95,15 +90,14 @@ try {
 
             echo "<td>";
 
-
-                echo "<div class='popup_form-show' data-scheduleDate=\"{$value['day']}\">";
+                echo "<div class='popup_form-show' data-scheduleDay=\"{$value['day']}\">";
                 echo "{$value['day']}";
                 echo "</div>";
 
 
                 if(isset($task_array) == true) {
                     foreach ($task_array as $task_array_value) {
-                        echo "<div data-scheduleTask=\"{$task_array_value->getTask()}\">";
+                        echo "<div class='task' data-scheduleTask=\"{$task_array_value->getTask()}\">";
                         echo "{$task_array_value->getTask()}";
                         echo "</div>";
                     }
@@ -122,17 +116,20 @@ try {
 
 <div class="popup_layer"></div>
     <div class="popup_form">
-        <p>Y年M月J日</p>
-        <form action="index.php" method="post">
+        <p class="popup_form-date">Y年M月J日</p>
+        <form class="popup_form-text" action="<?php echo "./?year=" . $year . "&month=" . $month;?>" method="post" target="_self">
             予定を入力してください<br>
-            <textarea name="mytask" cols="30" rows="10"></textarea><br>
+            <textarea name="new_task" cols="30" rows="10"></textarea><br>
+            <input class="popup_form-close" type="submit" value="登録"/>
         </form>
-        <input class="popup_form-close" type="submit" value="登録" />
     </div>
 
-
 <div class="sidemenu">
+    <div class="sidemenu_date">Y年M月J日ここサイドバー</div>
+    <p class="test-text">ここにタスクを一覧表示したいし、できれば表示しきれない分はスクロールとかできたら面白いと思う。
+        あとここにはタスククリックで変更処理受け付けたり、タスク横に削除ボタンつけて削除処理の受け付けもしてみたいと思う</p>
     <?php
+
 
     ?>
 </div>
