@@ -31,11 +31,11 @@ try {
         $task_array = $inst_taskrepository->get(new YMDDay($year, $month, $day));
         $delete_judge = $inst_taskrepository->delete($task_array[$_POST['delete_task']]);
     }
-    //具体的な更新処理
-    //$update_judge = $inst_pdo->update($task_array[5], 'dinner at akasaka');
 
-    //具体的な削除処理
-    //$delete_judge = $inst_pdo->delete($task_array[19]);
+    if(isset($_POST['change_task']) && isset($_POST['change_target'])){
+        $task_array = $inst_taskrepository->get(new YMDDay($year, $month, $day));
+        $update_judge = $inst_taskrepository->update($task_array[$_POST['change_target']], $_POST['change_task']);
+    }
 
     header("Location: /?year={$year}&month={$month}");
     die;
@@ -46,7 +46,3 @@ try {
     echo "ErrorFile : " . $e->getFile() . "<br>";
     echo "ErrorLine : " . $e->getLine() . "<br>";
 }
-/*
-header("Location: \"./?year=\" . $year . \"&month=\" . $month;");
-die;
-*/

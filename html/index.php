@@ -124,6 +124,17 @@ try {
         </form>
     </div>
 
+<div class="popup_layer-change"></div>
+<div class="popup_form-change">
+    <p class="popup_form-date-change">Y年M月J日</p>
+    <form class="popup_form-text-change" action="<?php echo "./?year=" . $year . "&month=" . $month;?>" method="post" target="_self">
+        予定を更新<br>
+        <textarea class="popup_form-textarea-change" name="change_task" cols="30" rows="10"></textarea><br>
+        <input class="popup_form-pointer" name="change_target" type="hidden" value=""/>
+        <input class="popup_form-close-change" type="submit" value="更新"/>
+    </form>
+</div>
+
 <div class="sidemenu">
     <div class="sidemenu_date">Y年M月J日</div>
     <div>
