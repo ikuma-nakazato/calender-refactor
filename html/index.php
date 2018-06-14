@@ -88,7 +88,7 @@ try {
             echo "<tr>";
             }
 
-            echo "<td>";
+            echo "<td class='sidemenu-show'>";
 
                 echo "<div class='popup_form-show' data-scheduleDay=\"{$value['day']}\">";
                 echo "{$value['day']}";
@@ -97,7 +97,7 @@ try {
 
                 if(isset($task_array) == true) {
                     foreach ($task_array as $task_array_value) {
-                        echo "<div class='task' data-scheduleTask=\"{$task_array_value->getTask()}\">";
+                        echo "<div class='task' data-scheduleTaskDate=\"{$value['day']}\">";
                         echo "{$task_array_value->getTask()}";
                         echo "</div>";
                     }
@@ -125,13 +125,11 @@ try {
     </div>
 
 <div class="sidemenu">
-    <div class="sidemenu_date">Y年M月J日ここサイドバー</div>
-    <p class="test-text">ここにタスクを一覧表示したいし、できれば表示しきれない分はスクロールとかできたら面白いと思う。
-        あとここにはタスククリックで変更処理受け付けたり、タスク横に削除ボタンつけて削除処理の受け付けもしてみたいと思う</p>
-    <?php
-
-
-    ?>
+    <div class="sidemenu_date">Y年M月J日</div>
+    <div>
+        <div class="sidemenu_tasks-title">予定の一覧</div>
+        <div class="sidemenu_tasks"></div>
+    </div>
 </div>
 
 

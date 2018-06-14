@@ -67,7 +67,6 @@ class TaskRepository {
 		}
 	}
 
-	//リファクタ未完
 	public function create(string $task, DayInterface $day): TaskModel
 	{
 		$db_handle = $this->pdo;

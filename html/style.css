@@ -41,6 +41,7 @@ td {
     font-size: 13px;
     text-align: center;
     vertical-align: top;
+    overflow-y: scroll;
 }
 td:first-child {
     background-color: #F6CECE;
@@ -90,6 +91,10 @@ td:last-child {
     text-align: center;
     z-index: 1;
 }
+.popup_form-close {
+    width: 50%;
+    height: 25%;
+}
 
 /**********/
 /*sidemenu*/
@@ -100,15 +105,30 @@ td:last-child {
     height: 75%;
     border: black solid 1px;
     border-radius: 5px;
-    background-color: whitesmoke;
+    background-color: #fffafa;
     float: right;
 }
 .sidemenu_date {
-    color: white;
-    background-color: #191970;
+    color: black;
+    background-color: #e0ffff;
     text-align: center;
 }
-
-.test-text {
+.sidemenu_tasks {
+}
+.sidemenu_tasks-title {
+    text-align: center;
+}
+.sidemenu_task {
+    width: 75%;
+    margin: 2px;
+    padding-left: 2px;
+    text-aline: left;
+    border: black solid 1px;
+    border-radius: 5px;
+    background-color: #faf0e6;
     word-wrap: break-word;
+}
+.sidemenu_task-form {
+    position: inherit;
+    text-align: right;
 }

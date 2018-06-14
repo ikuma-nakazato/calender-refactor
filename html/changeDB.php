@@ -12,7 +12,7 @@ const SQL_TB = 'CREATE TABLE IF NOT EXISTS plan
 		day DATE
 	)';
 
-if(!isset($_GET['year']) || !isset($_GET['month']) || !isset($_GET['day']) || $_POST['new_task'] == NULL){
+if(!isset($_GET['year']) || !isset($_GET['month']) || !isset($_GET['day'])){
     die('値が取得できません');
 }
 
@@ -27,11 +27,16 @@ try {
         $inst_taskmodel = $inst_taskrepository->create($_POST['new_task'], new YMDDay($year, $month, $day));
     }
 
+    if(isset($_POST['delete_task'])){
+        $task_array = $inst_taskrepository->get(new YMDDay($year, $month, $day));
+        $delete_judge = $inst_taskrepository->delete($task_array[$_POST['delete_task']]);
+    }
     //具体的な更新処理
     //$update_judge = $inst_pdo->update($task_array[5], 'dinner at akasaka');
 
     //具体的な削除処理
     //$delete_judge = $inst_pdo->delete($task_array[19]);
+
     header("Location: /?year={$year}&month={$month}");
     die;
 
