@@ -56,8 +56,11 @@ try {
     <meta charset="utf-8">
     <title>Scheduler</title>
     <link rel="stylesheet" href="style.css">
+    <script defer src="main.js"></script>
 </head>
 <body class="data_YM" data-scheduleYear="<?php echo $year; ?>" data-scheduleMonth="<?php echo $month; ?>">
+
+<div id="app"></div>
 
 <table border="1">
     <caption class="table_caption">
