@@ -19,10 +19,10 @@ export class SubComponent extends React.Component<IProps, IState> {
     }
 
     handleClick() {
-        console.log('クリックされました');
+        console.log('クリックされました!');
 
         this.setState({
-            count: this.state.count + 1,
+            count: this.state.count + 2048,
         });
     }
 

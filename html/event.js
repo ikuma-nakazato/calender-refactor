@@ -98,10 +98,7 @@ function sidemenu_task_change_form(day){
             document.getElementsByClassName("popup_form-pointer")[0].setAttribute('value', i);
 
             document.getElementsByClassName("popup_form-text-change")[0].setAttribute('action', "./changeDB.php/" + "?year=" + year + "&month=" + month + "&day=" + day);
-
-            document.getElementsByClassName("popup_layer-change")[0].style.display = "none";
-            document.getElementsByClassName("popup_form-change")[0].style.display = "none";
-
+            
         }
     }
 }

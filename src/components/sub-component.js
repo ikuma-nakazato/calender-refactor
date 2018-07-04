@@ -21,9 +21,9 @@ var SubComponent = /** @class */ (function (_super) {
         return _this;
     }
     SubComponent.prototype.handleClick = function () {
-        console.log('クリックされました');
+        console.log('クリックされました!');
         this.setState({
-            count: this.state.count + 1,
+            count: this.state.count + 2048,
         });
     };
     SubComponent.prototype.render = function () {
