@@ -3,7 +3,7 @@
 namespace Goodlife\Calender;
 use PDO;
 
-const DB_DSN = 'mysql:host=exerxise-spare_db_1;dbname=database;charset=utf8';
+const DB_DSN = 'mysql:host=calender-refactor_db_1;dbname=database;charset=utf8';
 const DB_USER = 'root';
 const DB_PASSWORD = 'pass';
 const OPTION = [

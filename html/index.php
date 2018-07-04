@@ -30,19 +30,6 @@ $inst_ymmonth = new Goodlife\Calender\MakeCalender(new YMMonth($year, $month));
 //---------------------------------------------------
 try {
 	$inst_taskrepository = new Goodlife\Calender\TaskRepository(Goodlife\Calender\PDOMaker::getPDO(), SQL_TB);
-	//echo "Connection has been activated & Created Plan Table";
-    /*
-    if(isset($_POST['new_task'])){
-        $inst_taskmodel = $inst_taskrepository->create($_POST['new_task'], new YMDDay($_GET['year'], $_GET['month'], $_GET['day']));
-    }
-    */
-
-	//具体的な更新処理
-	//$update_judge = $inst_pdo->update($task_array[5], 'dinner at akasaka');
-
-	//具体的な削除処理
-	//$delete_judge = $inst_pdo->delete($task_array[19]);
-
 } catch (\PDOException $e) {
 	echo "ErrorMessage : " . $e->getMessage() . "<br>";
 	echo "ErrorCode : " . $e->getCode() . "<br>";
