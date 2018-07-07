@@ -9,19 +9,16 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { SubComponent } from './sub-component';
-var App = /** @class */ (function (_super) {
-    __extends(App, _super);
-    function App() {
+var CalendarCaption = /** @class */ (function (_super) {
+    __extends(CalendarCaption, _super);
+    function CalendarCaption() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    App.prototype.render = function () {
+    CalendarCaption.prototype.render = function () {
         return (React.createElement("div", null,
-            React.createElement("h1", null, "Hello React!"),
-            React.createElement(SubComponent, { name: "My Counter for TypeScript" })));
+            React.createElement("caption", null, "2018\u5E745\u6708")));
     };
-    return App;
+    return CalendarCaption;
 }(React.Component));
-ReactDOM.render(React.createElement(App, null), document.querySelector('#app'));
-//# sourceMappingURL=main.js.map
+export default CalendarCaption;
+//# sourceMappingURL=CalendarCaption.js.map
