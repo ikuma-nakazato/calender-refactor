@@ -11,12 +11,15 @@ var __extends = (this && this.__extends) || (function () {
 import * as React from 'react';
 var CalendarCaption = /** @class */ (function (_super) {
     __extends(CalendarCaption, _super);
-    function CalendarCaption() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function CalendarCaption(props) {
+        return _super.call(this, props) || this;
     }
     CalendarCaption.prototype.render = function () {
-        return (React.createElement("div", null,
-            React.createElement("caption", null, "2018\u5E745\u6708")));
+        return (React.createElement("caption", null,
+            this.props.now_year,
+            "\u5E74",
+            this.props.now_month,
+            "\u6708"));
     };
     return CalendarCaption;
 }(React.Component));

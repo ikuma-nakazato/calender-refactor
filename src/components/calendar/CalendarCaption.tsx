@@ -1,14 +1,24 @@
 import * as React from 'react';
 
 
-export default class CalendarCaption extends React.Component {
+interface iCalendarCaptionProps {
+    now_year: number;
+    now_month: number;
+}
+
+interface iCalendarCaptionState {
+}
+
+export default class CalendarCaption extends React.Component<iCalendarCaptionProps, iCalendarCaptionState> {
+    constructor(props: any){
+        super(props);
+    }
+
     render(){
         return(
-            <div>
-                <caption>
-                    2018年5月
-                </caption>
-            </div>
+            <caption>
+                {this.props.now_year}年{this.props.now_month}月
+            </caption>
         );
     }
 }

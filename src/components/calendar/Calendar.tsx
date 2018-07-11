@@ -2,8 +2,6 @@ import * as React from 'react';
 import CalendarCaption from './CalendarCaption';
 import CalendarThead from './CalendarThead';
 import CalendarTbody from './CalendarTbody';
-
-
 const DATE_FNS = {
     format: require('date-fns/format'),
     eachDay: require('date-fns/each_day'),
@@ -13,6 +11,10 @@ const DATE_FNS = {
 
 
 interface iCalendarProps {
+    now_year: number;
+    now_month: number;
+    day_to_Index: any;
+    form_judge: any;
 }
 
 interface iCalendarState {
@@ -22,19 +24,17 @@ interface iCalendarState {
 export default class Calendar extends React.Component <iCalendarProps, iCalendarState> {
     constructor(props: any){
         super(props);
-        /*クエリを保証する条件式を書く*/
-        if(1) {
-            let y_query = 2018;
-            let m_query = 5;
+        this.state = {
+            inst_date_fns: new Date(this.props.now_year, this.props.now_month - 1),
+        };
+    }
 
-            this.state = {
-                inst_date_fns: new Date(y_query, m_query - 1)
-            };
-        }else{
-            console.log("異常発生");
-            /*処理を止める処理を書く*/
-        }
+    getDayFromTb(i: number) {
+        this.props.day_to_Index(i);
+    }
 
+    getFormJudge(handle: number) {
+        this.props.form_judge(handle);
     }
 
     getDaysOfMonth(): Array<object> {
@@ -42,35 +42,40 @@ export default class Calendar extends React.Component <iCalendarProps, iCalendar
         let end_date = DATE_FNS.lastDayOfMonth(start_date);
         let start_week = DATE_FNS.format(start_date, 'd');
         let end_week = DATE_FNS.format(end_date, 'd');
+        let is_days = DATE_FNS.eachDay(start_date, end_date);
+        let one_month = [];
 
-        let month_data = new Array();
 
         if(start_week !== 0){
             for(let i = 0; i < start_week; i++){
-                month_data.push(null);
+                one_month.push(null);
             }
         }
 
-        month_data.push(DATE_FNS.eachDay(start_date, end_date));
+        for(let j = 0; j < is_days.length; j++){
+            one_month.push(is_days[j]);
+        }
 
         if(end_week !== 6){
-            for(let j = end_week + 1; j < 7; j++){
-                month_data.push(null);
+            for(let k = end_week; k < 6; k++){
+                one_month.push(null);
             }
         }
 
-        return month_data;
+        return one_month;
     }
 
     render(){
         return(
-            <div>
-                <table>
-                    <CalendarCaption />
-                    <CalendarThead />
-                    <CalendarTbody />
-                </table>
-            </div>
+            <table>
+                <CalendarCaption now_year={this.props.now_year} now_month={this.props.now_month}/>
+                <CalendarThead />
+                <CalendarTbody
+                    data_days={this.getDaysOfMonth()}
+                    day_to_Calendar={this.getDayFromTb.bind(this)}
+                    form_judge={this.getFormJudge.bind(this)}
+                />
+            </table>
         );
     }
 }

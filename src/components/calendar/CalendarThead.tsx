@@ -8,19 +8,17 @@ export default class CalendarThead extends React.Component {
 
     render(){
         return(
-            <div>
-                <thead>
-                    <tr>
-                        <th>日</th>
-                        <th>月</th>
-                        <th>火</th>
-                        <th>水</th>
-                        <th>木</th>
-                        <th>金</th>
-                        <th>土</th>
-                    </tr>
-                </thead>
-            </div>
+            <thead>
+                <tr>
+                    <th className="sunday">日</th>
+                    <th>月</th>
+                    <th>火</th>
+                    <th>水</th>
+                    <th>木</th>
+                    <th>金</th>
+                    <th className="saturday">土</th>
+                </tr>
+            </thead>
         );
     }
 }

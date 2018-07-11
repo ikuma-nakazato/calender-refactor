@@ -22,45 +22,44 @@ var Calendar = /** @class */ (function (_super) {
     __extends(Calendar, _super);
     function Calendar(props) {
         var _this = _super.call(this, props) || this;
-        /*クエリを保証する条件式を書く*/
-        if (1) {
-            var y_query = 2018;
-            var m_query = 5;
-            _this.state = {
-                inst_date_fns: new Date(y_query, m_query - 1)
-            };
-        }
-        else {
-            console.log("異常発生");
-            /*処理を止める処理を書く*/
-        }
+        _this.state = {
+            inst_date_fns: new Date(_this.props.now_year, _this.props.now_month - 1),
+        };
         return _this;
     }
+    Calendar.prototype.getDayFromTb = function (i) {
+        this.props.day_to_Index(i);
+    };
+    Calendar.prototype.getFormJudge = function (handle) {
+        this.props.form_judge(handle);
+    };
     Calendar.prototype.getDaysOfMonth = function () {
         var start_date = this.state.inst_date_fns;
         var end_date = DATE_FNS.lastDayOfMonth(start_date);
         var start_week = DATE_FNS.format(start_date, 'd');
         var end_week = DATE_FNS.format(end_date, 'd');
-        var month_data = new Array();
+        var is_days = DATE_FNS.eachDay(start_date, end_date);
+        var one_month = [];
         if (start_week !== 0) {
             for (var i = 0; i < start_week; i++) {
-                month_data.push(null);
+                one_month.push(null);
             }
         }
-        month_data.push(DATE_FNS.eachDay(start_date, end_date));
+        for (var j = 0; j < is_days.length; j++) {
+            one_month.push(is_days[j]);
+        }
         if (end_week !== 6) {
-            for (var j = end_week + 1; j < 7; j++) {
-                month_data.push(null);
+            for (var k = end_week; k < 6; k++) {
+                one_month.push(null);
             }
         }
-        return month_data;
+        return one_month;
     };
     Calendar.prototype.render = function () {
-        return (React.createElement("div", null,
-            React.createElement("table", null,
-                React.createElement(CalendarCaption, null),
-                React.createElement(CalendarThead, null),
-                React.createElement(CalendarTbody, null))));
+        return (React.createElement("table", null,
+            React.createElement(CalendarCaption, { now_year: this.props.now_year, now_month: this.props.now_month }),
+            React.createElement(CalendarThead, null),
+            React.createElement(CalendarTbody, { data_days: this.getDaysOfMonth(), day_to_Calendar: this.getDayFromTb.bind(this), form_judge: this.getFormJudge.bind(this) })));
     };
     return Calendar;
 }(React.Component));

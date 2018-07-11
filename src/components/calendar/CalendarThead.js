@@ -15,16 +15,15 @@ var CalendarThead = /** @class */ (function (_super) {
         return _super.call(this, props) || this;
     }
     CalendarThead.prototype.render = function () {
-        return (React.createElement("div", null,
-            React.createElement("thead", null,
-                React.createElement("tr", null,
-                    React.createElement("th", null, "\u65E5"),
-                    React.createElement("th", null, "\u6708"),
-                    React.createElement("th", null, "\u706B"),
-                    React.createElement("th", null, "\u6C34"),
-                    React.createElement("th", null, "\u6728"),
-                    React.createElement("th", null, "\u91D1"),
-                    React.createElement("th", null, "\u571F")))));
+        return (React.createElement("thead", null,
+            React.createElement("tr", null,
+                React.createElement("th", { className: "sunday" }, "\u65E5"),
+                React.createElement("th", null, "\u6708"),
+                React.createElement("th", null, "\u706B"),
+                React.createElement("th", null, "\u6C34"),
+                React.createElement("th", null, "\u6728"),
+                React.createElement("th", null, "\u91D1"),
+                React.createElement("th", { className: "saturday" }, "\u571F"))));
     };
     return CalendarThead;
 }(React.Component));

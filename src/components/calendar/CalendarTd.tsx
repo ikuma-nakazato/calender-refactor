@@ -1,28 +1,30 @@
 import * as React from 'react';
 
-interface iCalendarDayProps {
 
+interface iCalendarTdProps {
+    day: number | null;
+    day_to_CTb: any;
+    form_judge: any;
 }
 
-interface iCalendarDayState {
-    date: string;
-    task_list: Array<string>;
+interface iCalendarTdState {
 }
 
-
-export default class CalendarTd extends React.Component <iCalendarDayProps, iCalendarDayState> {
-    constructor(props: any){
+export default class CalendarTd extends React.Component <iCalendarTdProps, iCalendarTdState> {
+    constructor(props: any) {
         super(props);
-        this.state = {
-            date: 'hogehoge',
-            task_list: ['fugafuga']
-        }
     }
 
-    render(){
-        return(
-            <div>
-            </div>
-        )
+
+    render() {
+        return (
+            <td onClick={() => this.props.day_to_CTb(this.props.day)}>
+                <div onClick={() => this.props.form_judge(1)}>
+                    {this.props.day}
+                </div>
+                <div>
+                </div>
+            </td>
+        );
     }
 }

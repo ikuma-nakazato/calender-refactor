@@ -9,18 +9,15 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import * as React from 'react';
-var CalendarTd = /** @class */ (function (_super) {
-    __extends(CalendarTd, _super);
-    function CalendarTd(props) {
+var SidemenuTask = /** @class */ (function (_super) {
+    __extends(SidemenuTask, _super);
+    function SidemenuTask(props) {
         return _super.call(this, props) || this;
     }
-    CalendarTd.prototype.render = function () {
-        var _this = this;
-        return (React.createElement("td", { onClick: function () { return _this.props.day_to_CTb(_this.props.day); } },
-            React.createElement("div", { onClick: function () { return _this.props.form_judge(1); } }, this.props.day),
-            React.createElement("div", null)));
+    SidemenuTask.prototype.render = function () {
+        return (React.createElement("div", null, "task"));
     };
-    return CalendarTd;
+    return SidemenuTask;
 }(React.Component));
-export default CalendarTd;
-//# sourceMappingURL=CalendarTd.js.map
+export default SidemenuTask;
+//# sourceMappingURL=SidemenuTask.js.map
