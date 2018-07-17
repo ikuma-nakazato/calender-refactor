@@ -6,43 +6,56 @@ const DATE_FNS = {
 
 
 interface iCalendarTbodyProps {
-    data_days: Array<object>;
-    day_to_Calendar: any;
-    form_judge: any;
+    data_one_month: Array<object>;
+    func_setReferDayState: Function;
+    func_setFormState: Function;
 }
 
 interface iCalendarTbodyState {
+    test_list: Array<{day: number; task: string}>;
 }
 
 export default class CalendarTbody extends React.Component <iCalendarTbodyProps, iCalendarTbodyState>{
     constructor(props: any){
         super(props);
+        this.state = {
+            test_list: [
+                {day: 5, task: 'test'},
+                {day: 5, task: 'test'},
+                {day: 13, task: 'test'},
+                {day: 17, task: 'test'},
+                {day: 21, task: 'test'},
+            ]
+        };
+        this.extractTask = this.extractTask.bind(this);
     }
 
-    getDayFromCTd(i: number) {
-        this.props.day_to_Calendar(i);
+    setReferDayState_sendDay(click_day: number){
+        this.props.func_setReferDayState(click_day);
     }
 
-    getFormJudge(handle: number) {
-        this.props.form_judge(handle);
+    setFormState_showForm(is_show: boolean) {
+        this.props.func_setFormState(is_show);
     }
 
     displayAllDays(): Array<any> {
         let refs = 0;
         let one_week = [];
 
-        let rendered_days = this.props.data_days.map((data) => {
+        let rendered_days = this.props.data_one_month.map((data) => {
             if(data === null){
                 return <CalendarTd
-                    day={null}
-                    day_to_CTb={this.getDayFromCTd.bind(this)}
-                    form_judge={this.getFormJudge.bind(this)}
+                    data_day={null}
+                    task_list={null}
+                    func_setReferDayState={this.setReferDayState_sendDay.bind(this)}
+                    func_setFormState={this.setFormState_showForm.bind(this)}
                 />
             }else{
                 return <CalendarTd
-                    day={DATE_FNS.format(data, 'D')}
-                    day_to_CTb={this.getDayFromCTd.bind(this)}
-                    form_judge={this.getFormJudge.bind(this)}
+                    data_day={DATE_FNS.format(data, 'D')}
+                    task_list={this.extractTask(Number(DATE_FNS.format(data, 'D')))}
+                    func_setReferDayState={this.setReferDayState_sendDay.bind(this)}
+                    func_setFormState={this.setFormState_showForm.bind(this)}
                 />
             }
         })
@@ -56,6 +69,17 @@ export default class CalendarTbody extends React.Component <iCalendarTbodyProps,
             return <tr>{data}</tr>
         })
     }
+
+    extractTask(specific_day: number): Array<string> {
+        let task_list = [];
+        for(let i = 0; i < this.state.test_list.length; i++){
+            if(this.state.test_list[i].day === specific_day){
+                task_list.push(this.state.test_list[i].task);
+            }
+        }
+        return task_list;
+    }
+
 
     render(){
         return(

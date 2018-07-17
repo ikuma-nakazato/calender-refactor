@@ -1,0 +1,12 @@
+.calendar {
+    border: black solid 1px;
+    border-collapse: separate;
+    width: 50%;
+    height: 75%;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}

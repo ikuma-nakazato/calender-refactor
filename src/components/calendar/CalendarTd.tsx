@@ -1,10 +1,12 @@
 import * as React from 'react';
+import './CalendarTd.css';
 
 
 interface iCalendarTdProps {
-    day: number | null;
-    day_to_CTb: any;
-    form_judge: any;
+    data_day: number | null;
+    task_list: Array<string> | null;
+    func_setReferDayState: Function;
+    func_setFormState: Function;
 }
 
 interface iCalendarTdState {
@@ -13,17 +15,37 @@ interface iCalendarTdState {
 export default class CalendarTd extends React.Component <iCalendarTdProps, iCalendarTdState> {
     constructor(props: any) {
         super(props);
+        this.setReferDayState_sendDay = this.setReferDayState_sendDay.bind(this);
+        this.setFormState_showForm = this.setFormState_showForm.bind(this);
     }
 
+    setReferDayState_sendDay(click_day: number | null){
+        if(click_day !== null){
+            this.props.func_setReferDayState(click_day);
+        }
+    }
+
+    setFormState_showForm(is_show: boolean){
+        this.props.func_setFormState(is_show);
+    }
+
+    displayTask(){
+        if(this.props.task_list !== null) {
+            return this.props.task_list.map((data) => {
+                return <div className="calendar_td-task">{data}</div>
+            })
+
+        }
+    }
 
     render() {
+        console.log(this.props.task_list);
         return (
-            <td onClick={() => this.props.day_to_CTb(this.props.day)}>
-                <div onClick={() => this.props.form_judge(1)}>
-                    {this.props.day}
+            <td className="calendar_td" onClick={() => this.setReferDayState_sendDay(this.props.data_day)}>
+                <div className="calendar_td-date" onClick={() => this.setFormState_showForm(true)}>
+                    {this.props.data_day}
                 </div>
-                <div>
-                </div>
+                <div className="calendar_td-task">task</div>
             </td>
         );
     }

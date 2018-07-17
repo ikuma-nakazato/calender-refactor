@@ -26,7 +26,7 @@ class MakeCalender
             if ($day == 1) {
                 for ($i = 0; $i < $week; $i++) {
                     $day_data_detail = [
-                        'day' => NULL,
+                        'data_day' => NULL,
                         'week' => $i
                     ];
 
@@ -35,7 +35,7 @@ class MakeCalender
             }
 
             $day_data_detail = [
-                'day' => $day,
+                'data_day' => $day,
                 'week' => $week
             ];
             $day_data[] = $day_data_detail;
@@ -44,7 +44,7 @@ class MakeCalender
         if (end($day_data)['week'] != 6) {
             for ($i = $week + 1; $i < 7; $i++) {
                 $day_data_detail = [
-                    'day' => NULL,
+                    'data_day' => NULL,
                     'week' => $i
                 ];
                 $day_data[] = $day_data_detail;

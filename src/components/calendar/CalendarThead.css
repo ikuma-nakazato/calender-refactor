@@ -1,0 +1,12 @@
+th {
+    border: black solid 1px;
+    border-radius: 3px;
+}
+.calendar_thead-sunday {
+    background-color: #F5A9A9;
+    color: #FA5858;
+}
+.calendar_thead-saturday {
+    background-color: #A9A9F5;
+    color: #5858FA;
+}

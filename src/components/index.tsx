@@ -10,32 +10,37 @@ const QUERY = {
 
 
 interface iAppProps {
-
 }
 
 interface iAppState {
-    clicked_day: number;
-    form_judge: boolean;
+    refer_day: number;
+    form_state: boolean;
+    task_list: Array<{date: string; task: string}>;
 }
 
 class App extends React.Component <iAppProps, iAppState>{
     constructor(props: any){
         super(props);
         this.state = {
-            clicked_day: 1,
-            form_judge: false
+            refer_day: 1,
+            form_state: false,
+            task_list: [
+                {date: '2018', task: 'hoge'},
+            ]
         }
     }
 
-    getDayFromCalendar(i: number) {
-        if(i !== null) {
-            this.setState({clicked_day: i})
+    setReferDayState(click_day: number) {
+        if(click_day !== null) {
+            this.setState({refer_day: click_day})
         }
     }
-    
-    getFormJudge(handle: number) {
-        if(handle === 1){
-            this.setState({form_judge: true})
+
+    setFormState(is_show: boolean){
+        if(is_show){
+            this.setState({form_state: true})
+        }else{
+            this.setState({form_state: false})
         }
     }
 
@@ -45,14 +50,21 @@ class App extends React.Component <iAppProps, iAppState>{
                 <Calendar
                     now_year={QUERY.year}
                     now_month={QUERY.month}
-                    day_to_Index={this.getDayFromCalendar.bind(this)}
-                    form_judge={this.getFormJudge.bind(this)}
+                    func_setReferDayState={this.setReferDayState.bind(this)}
+                    func_setFormState={this.setFormState.bind(this)}
                 />
                 <Sidemenu
                     now_year={QUERY.year}
                     now_month={QUERY.month}
-                    now_day={this.state.clicked_day} />
-                <Form form_judge={this.state.form_judge} />
+                    now_day={this.state.refer_day}
+                />
+                <Form
+                    now_year={QUERY.year}
+                    now_month={QUERY.month}
+                    now_day={this.state.refer_day}
+                    self_formState={this.state.form_state}
+                    func_setFormState={this.setFormState.bind(this)}
+                />
             </div>
         );
     }

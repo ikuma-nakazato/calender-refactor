@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './Calendar.css';
 import CalendarCaption from './CalendarCaption';
 import CalendarThead from './CalendarThead';
 import CalendarTbody from './CalendarTbody';
@@ -13,8 +14,8 @@ const DATE_FNS = {
 interface iCalendarProps {
     now_year: number;
     now_month: number;
-    day_to_Index: any;
-    form_judge: any;
+    func_setReferDayState: Function;
+    func_setFormState: Function;
 }
 
 interface iCalendarState {
@@ -29,12 +30,12 @@ export default class Calendar extends React.Component <iCalendarProps, iCalendar
         };
     }
 
-    getDayFromTb(i: number) {
-        this.props.day_to_Index(i);
+    setReferDayState_sendDay(click_day: number) {
+        this.props.func_setReferDayState(click_day);
     }
 
-    getFormJudge(handle: number) {
-        this.props.form_judge(handle);
+    setFormState_showForm(is_show: boolean) {
+        this.props.func_setFormState(is_show);
     }
 
     getDaysOfMonth(): Array<object> {
@@ -67,13 +68,13 @@ export default class Calendar extends React.Component <iCalendarProps, iCalendar
 
     render(){
         return(
-            <table>
+            <table className="calendar">
                 <CalendarCaption now_year={this.props.now_year} now_month={this.props.now_month}/>
                 <CalendarThead />
                 <CalendarTbody
-                    data_days={this.getDaysOfMonth()}
-                    day_to_Calendar={this.getDayFromTb.bind(this)}
-                    form_judge={this.getFormJudge.bind(this)}
+                    data_one_month={this.getDaysOfMonth()}
+                    func_setReferDayState={this.setReferDayState_sendDay.bind(this)}
+                    func_setFormState={this.setFormState_showForm.bind(this)}
                 />
             </table>
         );

@@ -1,3 +1,14 @@
-div {
-    margin-right: 0;
+.sidemenu {
+    border: black solid 1px;
+    border-radius: 5px;
+    width: 20%;
+    height: 75%;
+    display: block;
+    position: absolute;
+    right: 5px;
+    top: 8%;
+}
+.sidemenu-date {
+    border-bottom: black solid 1px;
+    text-align: center;
 }

@@ -21,10 +21,10 @@ class TaskRepository {
 	{
 		$taskmodel_array = [];
 		$db_handle = $this->pdo;
-		$sql_query = 'SELECT id, task FROM plan WHERE day = :day';
+		$sql_query = 'SELECT id, task FROM plan WHERE data_day = :data_day';
 
 		$pre = $db_handle->prepare($sql_query);
-		$pre->bindValue(':day', $day->format('Y-m-d'), PDO::PARAM_STR);
+		$pre->bindValue(':data_day', $day->format('Y-m-d'), PDO::PARAM_STR);
 		$pre->execute();
 
 		foreach($pre as $value){
@@ -70,11 +70,11 @@ class TaskRepository {
 	public function create(string $task, DayInterface $day): TaskModel
 	{
 		$db_handle = $this->pdo;
-		$sql_query = 'INSERT INTO plan (task, day) VALUES (:task, :day)';
+		$sql_query = 'INSERT INTO plan (task, data_day) VALUES (:task, :data_day)';
 
 		$pre = $db_handle->prepare($sql_query);
 		$pre->bindValue(':task', $task, PDO::PARAM_STR);
-		$pre->bindValue(':day', $day->format('Y-m-d'), PDO::PARAM_STR);
+		$pre->bindValue(':data_day', $day->format('Y-m-d'), PDO::PARAM_STR);
 		$pre->execute();
 
 		return new TaskModel($db_handle->lastInsertId(), $task, $day);

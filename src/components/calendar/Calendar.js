@@ -9,6 +9,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import * as React from 'react';
+import './Calendar.css';
 import CalendarCaption from './CalendarCaption';
 import CalendarThead from './CalendarThead';
 import CalendarTbody from './CalendarTbody';
@@ -27,11 +28,11 @@ var Calendar = /** @class */ (function (_super) {
         };
         return _this;
     }
-    Calendar.prototype.getDayFromTb = function (i) {
-        this.props.day_to_Index(i);
+    Calendar.prototype.setReferDayState_sendDay = function (click_day) {
+        this.props.func_setReferDayState(click_day);
     };
-    Calendar.prototype.getFormJudge = function (handle) {
-        this.props.form_judge(handle);
+    Calendar.prototype.setFormState_showForm = function (is_show) {
+        this.props.func_setFormState(is_show);
     };
     Calendar.prototype.getDaysOfMonth = function () {
         var start_date = this.state.inst_date_fns;
@@ -56,10 +57,10 @@ var Calendar = /** @class */ (function (_super) {
         return one_month;
     };
     Calendar.prototype.render = function () {
-        return (React.createElement("table", null,
+        return (React.createElement("table", { className: "calendar" },
             React.createElement(CalendarCaption, { now_year: this.props.now_year, now_month: this.props.now_month }),
             React.createElement(CalendarThead, null),
-            React.createElement(CalendarTbody, { data_days: this.getDaysOfMonth(), day_to_Calendar: this.getDayFromTb.bind(this), form_judge: this.getFormJudge.bind(this) })));
+            React.createElement(CalendarTbody, { data_one_month: this.getDaysOfMonth(), func_setReferDayState: this.setReferDayState_sendDay.bind(this), func_setFormState: this.setFormState_showForm.bind(this) })));
     };
     return Calendar;
 }(React.Component));

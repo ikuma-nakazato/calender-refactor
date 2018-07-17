@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './CalendarCaption.css';
 
 
 interface iCalendarCaptionProps {
@@ -16,7 +17,7 @@ export default class CalendarCaption extends React.Component<iCalendarCaptionPro
 
     render(){
         return(
-            <caption>
+            <caption className="calendar_caption">
                 {this.props.now_year}年{this.props.now_month}月
             </caption>
         );

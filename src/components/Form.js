@@ -13,23 +13,39 @@ import './Form.css';
 var Form = /** @class */ (function (_super) {
     __extends(Form, _super);
     function Form(props) {
-        return _super.call(this, props) || this;
+        var _this = _super.call(this, props) || this;
+        _this.setFormState_showForm = _this.setFormState_showForm.bind(_this);
+        return _this;
     }
-    Form.prototype.displayForm = function () {
-        //form_judgeで表示と非表示を変更
-        if (this.props.form_judge) {
-            console.log('true');
+    Form.prototype.setFormState_showForm = function (is_show) {
+        this.props.func_setFormState(is_show);
+    };
+    Form.prototype.switchForm = function () {
+        if (this.props.self_formState) {
+            return {
+                display: "block"
+            };
+        }
+        else {
+            return {
+                display: "none"
+            };
         }
     };
     Form.prototype.render = function () {
-        this.displayForm();
-        return (React.createElement("div", null,
-            React.createElement("div", null),
-            React.createElement("div", null,
-                React.createElement("p", null, "Y\u5E74M\u6708J\u65E5"),
+        var _this = this;
+        return (React.createElement("div", { className: "form", style: this.switchForm() },
+            React.createElement("div", { className: "form-layer", onClick: function () { return _this.setFormState_showForm(false); } }),
+            React.createElement("div", { className: "form-popup" },
+                React.createElement("p", null,
+                    this.props.now_year,
+                    "\u5E74",
+                    this.props.now_month,
+                    "\u6708",
+                    this.props.now_day,
+                    "\u65E5"),
                 React.createElement("br", null),
-                React.createElement("p", null, "\u4E88\u5B9A\u3092\u66F4\u65B0"),
-                React.createElement("br", null),
+                React.createElement("p", null, "\u4E88\u5B9A\u3092\u5165\u308C\u3066\u307F\u3088\u3046"),
                 React.createElement("input", { type: "text" }),
                 React.createElement("input", { type: "button", value: "submit" }))));
     };

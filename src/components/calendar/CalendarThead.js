@@ -9,21 +9,22 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import * as React from "react";
+import './CalendarThead.css';
 var CalendarThead = /** @class */ (function (_super) {
     __extends(CalendarThead, _super);
     function CalendarThead(props) {
         return _super.call(this, props) || this;
     }
     CalendarThead.prototype.render = function () {
-        return (React.createElement("thead", null,
+        return (React.createElement("thead", { className: "calendar_thead" },
             React.createElement("tr", null,
-                React.createElement("th", { className: "sunday" }, "\u65E5"),
+                React.createElement("th", { className: "calendar_thead-sunday" }, "\u65E5"),
                 React.createElement("th", null, "\u6708"),
                 React.createElement("th", null, "\u706B"),
                 React.createElement("th", null, "\u6C34"),
                 React.createElement("th", null, "\u6728"),
                 React.createElement("th", null, "\u91D1"),
-                React.createElement("th", { className: "saturday" }, "\u571F"))));
+                React.createElement("th", { className: "calendar_thead-saturday" }, "\u571F"))));
     };
     return CalendarThead;
 }(React.Component));

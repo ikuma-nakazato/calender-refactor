@@ -9,13 +9,14 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import * as React from 'react';
+import './CalendarCaption.css';
 var CalendarCaption = /** @class */ (function (_super) {
     __extends(CalendarCaption, _super);
     function CalendarCaption(props) {
         return _super.call(this, props) || this;
     }
     CalendarCaption.prototype.render = function () {
-        return (React.createElement("caption", null,
+        return (React.createElement("caption", { className: "calendar_caption" },
             this.props.now_year,
             "\u5E74",
             this.props.now_month,

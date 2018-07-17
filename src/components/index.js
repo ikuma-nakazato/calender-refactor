@@ -22,26 +22,32 @@ var App = /** @class */ (function (_super) {
     function App(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {
-            clicked_day: 1,
-            form_judge: false
+            refer_day: 1,
+            form_state: false,
+            task_list: [
+                { date: '2018', task: 'hoge' },
+            ]
         };
         return _this;
     }
-    App.prototype.getDayFromCalendar = function (i) {
-        if (i !== null) {
-            this.setState({ clicked_day: i });
+    App.prototype.setReferDayState = function (click_day) {
+        if (click_day !== null) {
+            this.setState({ refer_day: click_day });
         }
     };
-    App.prototype.getFormJudge = function (handle) {
-        if (handle === 1) {
-            this.setState({ form_judge: true });
+    App.prototype.setFormState = function (is_show) {
+        if (is_show) {
+            this.setState({ form_state: true });
+        }
+        else {
+            this.setState({ form_state: false });
         }
     };
     App.prototype.render = function () {
         return (React.createElement("div", null,
-            React.createElement(Calendar, { now_year: QUERY.year, now_month: QUERY.month, day_to_Index: this.getDayFromCalendar.bind(this), form_judge: this.getFormJudge.bind(this) }),
-            React.createElement(Sidemenu, { now_year: QUERY.year, now_month: QUERY.month, now_day: this.state.clicked_day }),
-            React.createElement(Form, { form_judge: this.state.form_judge })));
+            React.createElement(Calendar, { now_year: QUERY.year, now_month: QUERY.month, func_setReferDayState: this.setReferDayState.bind(this), func_setFormState: this.setFormState.bind(this) }),
+            React.createElement(Sidemenu, { now_year: QUERY.year, now_month: QUERY.month, now_day: this.state.refer_day }),
+            React.createElement(Form, { now_year: QUERY.year, now_month: QUERY.month, now_day: this.state.refer_day, self_formState: this.state.form_state, func_setFormState: this.setFormState.bind(this) })));
     };
     return App;
 }(React.Component));

@@ -9,16 +9,36 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import * as React from 'react';
+import './CalendarTd.css';
 var CalendarTd = /** @class */ (function (_super) {
     __extends(CalendarTd, _super);
     function CalendarTd(props) {
-        return _super.call(this, props) || this;
+        var _this = _super.call(this, props) || this;
+        _this.setReferDayState_sendDay = _this.setReferDayState_sendDay.bind(_this);
+        _this.setFormState_showForm = _this.setFormState_showForm.bind(_this);
+        return _this;
     }
+    CalendarTd.prototype.setReferDayState_sendDay = function (click_day) {
+        if (click_day !== null) {
+            this.props.func_setReferDayState(click_day);
+        }
+    };
+    CalendarTd.prototype.setFormState_showForm = function (is_show) {
+        this.props.func_setFormState(is_show);
+    };
+    CalendarTd.prototype.displayTask = function () {
+        if (this.props.task_list !== null) {
+            return this.props.task_list.map(function (data) {
+                return React.createElement("div", { className: "calendar_td-task" }, data);
+            });
+        }
+    };
     CalendarTd.prototype.render = function () {
         var _this = this;
-        return (React.createElement("td", { onClick: function () { return _this.props.day_to_CTb(_this.props.day); } },
-            React.createElement("div", { onClick: function () { return _this.props.form_judge(1); } }, this.props.day),
-            React.createElement("div", null)));
+        console.log(this.props.task_list);
+        return (React.createElement("td", { className: "calendar_td", onClick: function () { return _this.setReferDayState_sendDay(_this.props.data_day); } },
+            React.createElement("div", { className: "calendar_td-date", onClick: function () { return _this.setFormState_showForm(true); } }, this.props.data_day),
+            React.createElement("div", { className: "calendar_td-task" }, "task")));
     };
     return CalendarTd;
 }(React.Component));

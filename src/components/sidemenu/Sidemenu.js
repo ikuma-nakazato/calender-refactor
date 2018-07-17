@@ -16,8 +16,8 @@ var Sidemenu = /** @class */ (function (_super) {
         return _super.call(this, props) || this;
     }
     Sidemenu.prototype.render = function () {
-        return (React.createElement("div", null,
-            React.createElement("div", null,
+        return (React.createElement("div", { className: "sidemenu" },
+            React.createElement("div", { className: "sidemenu-date" },
                 this.props.now_year,
                 "\u5E74",
                 this.props.now_month,
