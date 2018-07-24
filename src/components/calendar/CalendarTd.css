@@ -1,0 +1,24 @@
+td:first-child {
+    background-color: #F6CECE;
+}
+td:last-child {
+    background-color: #CECEF6;
+}
+.calendar_td {
+    border: black solid 1px;
+    border-radius: 3px;
+    text-align: center;
+    vertical-align: top;
+}
+.calendar_td-date {
+    font-size: 18px;
+}
+.calendar_td-task {
+    border: black solid 1px;
+    border-radius: 5px;
+    width: 75%;
+    margin: 2px auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
