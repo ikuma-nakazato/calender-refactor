@@ -31,8 +31,8 @@ var Calendar = /** @class */ (function (_super) {
     Calendar.prototype.setReferDayState_sendDay = function (click_day) {
         this.props.func_setReferDayState(click_day);
     };
-    Calendar.prototype.setFormState_showForm = function (is_show) {
-        this.props.func_setFormState(is_show);
+    Calendar.prototype.setFormState_showForm = function (is_show, type) {
+        this.props.func_setFormState(is_show, type);
     };
     Calendar.prototype.getDaysOfMonth = function () {
         var start_date = this.state.inst_date_fns;

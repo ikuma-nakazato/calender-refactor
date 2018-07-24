@@ -25,8 +25,8 @@ export default class CalendarTd extends React.Component <iCalendarTdProps, iCale
         }
     }
 
-    setFormState_showForm(is_show: boolean){
-        this.props.func_setFormState(is_show);
+    setFormState_showForm(is_show: boolean, type: string){
+        this.props.func_setFormState(is_show, type);
     }
 
     displayTask(){
@@ -39,10 +39,10 @@ export default class CalendarTd extends React.Component <iCalendarTdProps, iCale
     }
 
     render() {
-        console.log(this.props.task_list);
+        //console.log(this.props.task_list);
         return (
             <td className="calendar_td" onClick={() => this.setReferDayState_sendDay(this.props.data_day)}>
-                <div className="calendar_td-date" onClick={() => this.setFormState_showForm(true)}>
+                <div className="calendar_td-date" onClick={() => this.setFormState_showForm(true, 'create')}>
                     {this.props.data_day}
                 </div>
                 <div className="calendar_td-task">task</div>

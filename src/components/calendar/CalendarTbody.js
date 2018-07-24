@@ -32,8 +32,8 @@ var CalendarTbody = /** @class */ (function (_super) {
     CalendarTbody.prototype.setReferDayState_sendDay = function (click_day) {
         this.props.func_setReferDayState(click_day);
     };
-    CalendarTbody.prototype.setFormState_showForm = function (is_show) {
-        this.props.func_setFormState(is_show);
+    CalendarTbody.prototype.setFormState_showForm = function (is_show, type) {
+        this.props.func_setFormState(is_show, type);
     };
     CalendarTbody.prototype.displayAllDays = function () {
         var _this = this;

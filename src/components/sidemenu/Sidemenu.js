@@ -9,6 +9,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import * as React from 'react';
+import SidemenuTask from './SidemenuTask';
 import './Sidemenu.css';
 var Sidemenu = /** @class */ (function (_super) {
     __extends(Sidemenu, _super);
@@ -25,7 +26,8 @@ var Sidemenu = /** @class */ (function (_super) {
                 this.props.now_day,
                 "\u65E5"),
             React.createElement("div", null,
-                React.createElement("div", null, "\u4E88\u5B9A\u306E\u4E00\u89A7"))));
+                React.createElement("div", null, "\u4E88\u5B9A\u306E\u4E00\u89A7"),
+                React.createElement(SidemenuTask, null))));
     };
     return Sidemenu;
 }(React.Component));

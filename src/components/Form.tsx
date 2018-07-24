@@ -6,7 +6,8 @@ interface iFormProps {
     now_year: number;
     now_month: number;
     now_day: number;
-    self_formState: boolean;
+    self_formShow: boolean;
+    self_formType: string;
     func_setFormState: Function;
 }
 
@@ -23,8 +24,8 @@ export default class Form extends React.Component <iFormProps, iFormState> {
         this.props.func_setFormState(is_show);
     }
 
-    switchForm(){
-        if(this.props.self_formState){
+    switchFormShow(){
+        if(this.props.self_formShow){
             return{
                 display: "block"
             }
@@ -35,15 +36,35 @@ export default class Form extends React.Component <iFormProps, iFormState> {
         }
     }
 
+    switchFormURL(){
+        if(this.props.self_formType === 'create'){
+            return ('./create.php?date=' + this.props.now_year + '-' + this.props.now_month + '-' + this.props.now_day);
+        }
+        if(this.props.self_formType === 'update'){
+            return ('./update.php?date=' + this.props.now_year + '-' + this.props.now_month + '-' + this.props.now_day);
+        }
+    }
+
+    switchFormStatement() {
+        if(this.props.self_formType === 'create'){
+            return '予定の作成';
+        }
+        if(this.props.self_formType === 'update'){
+            return '予定の更新';
+        }
+    }
+
     render(){
         return(
-            <div className="form" style={this.switchForm()}>
+            <div className="form" style={this.switchFormShow()}>
                 <div className="form-layer" onClick={() => this.setFormState_showForm(false)}></div>
                 <div className="form-popup">
                     <p>{this.props.now_year}年{this.props.now_month}月{this.props.now_day}日</p><br />
-                    <p>予定を入れてみよう</p>
-                    <input type="text" />
-                    <input type="button" value="submit" />
+                    <p>{this.switchFormStatement()}</p>
+                    <form action={this.switchFormURL()} method="post" target="_self">
+                        <input type="text" name="create_task" />
+                        <input type="submit" value="作成" />
+                    </form>
                 </div>
             </div>
         );

@@ -23,8 +23,8 @@ var CalendarTd = /** @class */ (function (_super) {
             this.props.func_setReferDayState(click_day);
         }
     };
-    CalendarTd.prototype.setFormState_showForm = function (is_show) {
-        this.props.func_setFormState(is_show);
+    CalendarTd.prototype.setFormState_showForm = function (is_show, type) {
+        this.props.func_setFormState(is_show, type);
     };
     CalendarTd.prototype.displayTask = function () {
         if (this.props.task_list !== null) {
@@ -35,9 +35,9 @@ var CalendarTd = /** @class */ (function (_super) {
     };
     CalendarTd.prototype.render = function () {
         var _this = this;
-        console.log(this.props.task_list);
+        //console.log(this.props.task_list);
         return (React.createElement("td", { className: "calendar_td", onClick: function () { return _this.setReferDayState_sendDay(_this.props.data_day); } },
-            React.createElement("div", { className: "calendar_td-date", onClick: function () { return _this.setFormState_showForm(true); } }, this.props.data_day),
+            React.createElement("div", { className: "calendar_td-date", onClick: function () { return _this.setFormState_showForm(true, 'create'); } }, this.props.data_day),
             React.createElement("div", { className: "calendar_td-task" }, "task")));
     };
     return CalendarTd;

@@ -34,8 +34,8 @@ export default class Calendar extends React.Component <iCalendarProps, iCalendar
         this.props.func_setReferDayState(click_day);
     }
 
-    setFormState_showForm(is_show: boolean) {
-        this.props.func_setFormState(is_show);
+    setFormState_showForm(is_show: boolean, type: string) {
+        this.props.func_setFormState(is_show, type);
     }
 
     getDaysOfMonth(): Array<object> {
