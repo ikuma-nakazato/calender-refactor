@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import Calendar from './calendar/Calendar';
 import Sidemenu from './sidemenu/Sidemenu';
 import Form from './Form';
+
 /*本来はurlパラとして取得*/
 const QUERY = {
     year: 2018,
