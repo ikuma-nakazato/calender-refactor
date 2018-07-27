@@ -1,9 +1,8 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import Calendar from './calendar/Calendar';
 import Sidemenu from './sidemenu/Sidemenu';
-import Form from './Form';
-
+import Form from './Form/Form';
+import {connect} from "react-redux";
 /*本来はurlパラとして取得*/
 const QUERY = {
     year: 2018,
@@ -21,7 +20,7 @@ interface iAppState {
     task_list: Array<{date: string; task: string}>;
 }
 
-class App extends React.Component <iAppProps, iAppState>{
+export default class Index extends React.Component <iAppProps, iAppState>{
     constructor(props: any){
         super(props);
         this.state = {
@@ -49,6 +48,7 @@ class App extends React.Component <iAppProps, iAppState>{
     render() {
         return (
             <div>
+                <h1 onClick={() => alert(403)}>テスト用</h1>
                 <Calendar
                     now_year={QUERY.year}
                     now_month={QUERY.month}
@@ -72,5 +72,3 @@ class App extends React.Component <iAppProps, iAppState>{
         );
     }
 }
-
-ReactDOM.render(<App/>, document.querySelector('#app'));

@@ -33,12 +33,17 @@ var CalendarTd = /** @class */ (function (_super) {
             });
         }
     };
+    CalendarTd.prototype.testTaskDisplay = function () {
+        if (this.props.data_day !== null) {
+            return React.createElement("div", { className: "calendar_td-task" }, "test_task");
+        }
+    };
     CalendarTd.prototype.render = function () {
         var _this = this;
         //console.log(this.props.task_list);
         return (React.createElement("td", { className: "calendar_td", onClick: function () { return _this.setReferDayState_sendDay(_this.props.data_day); } },
             React.createElement("div", { className: "calendar_td-date", onClick: function () { return _this.setFormState_showForm(true, 'create'); } }, this.props.data_day),
-            React.createElement("div", { className: "calendar_td-task" }, "task")));
+            this.testTaskDisplay()));
     };
     return CalendarTd;
 }(React.Component));

@@ -4,7 +4,7 @@ module.exports = {
     mode: 'development',
 
     // メインとなるJavaScriptファイル（エントリーポイント）
-    entry: './src/components/index.tsx',
+    entry: './src/components/App.tsx',
     // ファイルの出力設定
     output: {
         //  出力ファイルのディレクトリ名

@@ -33,8 +33,13 @@ export default class CalendarTd extends React.Component <iCalendarTdProps, iCale
         if(this.props.task_list !== null) {
             return this.props.task_list.map((data) => {
                 return <div className="calendar_td-task">{data}</div>
-            })
+            });
+        }
+    }
 
+    testTaskDisplay(){
+        if(this.props.data_day !== null){
+            return <div className="calendar_td-task">test_task</div>;
         }
     }
 
@@ -45,7 +50,7 @@ export default class CalendarTd extends React.Component <iCalendarTdProps, iCale
                 <div className="calendar_td-date" onClick={() => this.setFormState_showForm(true, 'create')}>
                     {this.props.data_day}
                 </div>
-                <div className="calendar_td-task">task</div>
+                {this.testTaskDisplay()}
             </td>
         );
     }

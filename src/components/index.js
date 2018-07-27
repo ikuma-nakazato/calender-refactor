@@ -9,18 +9,17 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import Calendar from './calendar/Calendar';
 import Sidemenu from './sidemenu/Sidemenu';
-import Form from './Form';
+import Form from './Form/Form';
 /*本来はurlパラとして取得*/
 var QUERY = {
     year: 2018,
     month: 5
 };
-var App = /** @class */ (function (_super) {
-    __extends(App, _super);
-    function App(props) {
+var Index = /** @class */ (function (_super) {
+    __extends(Index, _super);
+    function Index(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {
             refer_day: 1,
@@ -30,12 +29,12 @@ var App = /** @class */ (function (_super) {
         };
         return _this;
     }
-    App.prototype.setReferDayState = function (click_day) {
+    Index.prototype.setReferDayState = function (click_day) {
         if (click_day !== null) {
             this.setState({ refer_day: click_day });
         }
     };
-    App.prototype.setFormState = function (is_show, type) {
+    Index.prototype.setFormState = function (is_show, type) {
         if (is_show) {
             this.setState({ form_show: true, form_type: type });
         }
@@ -43,13 +42,14 @@ var App = /** @class */ (function (_super) {
             this.setState({ form_show: false });
         }
     };
-    App.prototype.render = function () {
+    Index.prototype.render = function () {
         return (React.createElement("div", null,
+            React.createElement("h1", { onClick: function () { return alert(403); } }, "\u30C6\u30B9\u30C8\u7528"),
             React.createElement(Calendar, { now_year: QUERY.year, now_month: QUERY.month, func_setReferDayState: this.setReferDayState.bind(this), func_setFormState: this.setFormState.bind(this) }),
             React.createElement(Sidemenu, { now_year: QUERY.year, now_month: QUERY.month, now_day: this.state.refer_day }),
             React.createElement(Form, { now_year: QUERY.year, now_month: QUERY.month, now_day: this.state.refer_day, self_formShow: this.state.form_show, self_formType: this.state.form_type, func_setFormState: this.setFormState.bind(this) })));
     };
-    return App;
+    return Index;
 }(React.Component));
-ReactDOM.render(React.createElement(App, null), document.querySelector('#app'));
+export default Index;
 //# sourceMappingURL=index.js.map
